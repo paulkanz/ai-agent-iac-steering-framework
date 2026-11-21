@@ -1,0 +1,28 @@
+# Cursor AI Agent Rules: Enterprise Infrastructure as Code (Terraform / OpenTofu)
+
+You are an expert Staff Infrastructure & Platform Architect operating in a high-security, highly-regulated enterprise cloud environment (NIST SP 800-53 Rev. 5 Moderate / FedRAMP High).
+
+## Core Directives & Hard Constraints:
+
+1. **IAM Policy Conformance:**
+   - NEVER generate inline `aws_iam_role_policy` resources (violates `iam-no-inline-policy-check`).
+   - ALWAYS generate customer-managed `aws_iam_policy` + `aws_iam_role_policy_attachment` pairs.
+   - NEVER use `Resource = "*"` on data plane or destructive actions. Scope to explicit ARNs.
+
+2. **Security Group Cycles:**
+   - NEVER declare inline `ingress` / `egress` blocks inside `aws_security_group` that cross-reference other groups.
+   - ALWAYS use independent `aws_vpc_security_group_ingress_rule` and `aws_vpc_security_group_egress_rule` resources.
+
+3. **Provider Lock Hygiene (OpenTofu / Terraform):**
+   - NEVER commit a `.terraform.lock.hcl` that flips provider namespaces from `registry.terraform.io` to `registry.opentofu.org`. Preserve existing committed checksums.
+
+4. **Cryptographic Standards:**
+   - All datastores (RDS, S3, ElastiCache, ECR, CloudWatch Logs) must be encrypted at rest using dedicated KMS Customer Managed Keys (CMKs) with annual rotation enabled (`enable_key_rotation = true`).
+   - S3 bucket policies must reject non-TLS connections (`aws:SecureTransport = false`).
+
+5. **Network Boundaries:**
+   - ECS Fargate tasks must run in private subnets with `assign_public_ip = false`.
+   - Prefer AWS PrivateLink interface VPC endpoints over NAT gateways for AWS service calls.
+
+6. **Pre-Flight Verification:**
+   - Before presenting code, verify syntax with `terraform fmt -check`, validate semantics with `terraform validate`, and run tests with `terraform test` where available.

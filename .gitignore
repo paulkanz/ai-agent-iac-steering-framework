@@ -1,0 +1,15 @@
+# Terraform / OpenTofu artifacts
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.plan
+*.tfplan
+crash.log
+
+# Secret variables
+*.tfvars
+*.tfvars.json
+
+# OS files
+.DS_Store
+Thumbs.db
