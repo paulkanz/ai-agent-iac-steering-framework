@@ -40,7 +40,7 @@ graph TD
     Agent --> P3["3. tech.md (Compliance & Trap Registry)"]
     Agent --> P4["4. workflow.md (Pre-Flight Verification Gates)"]
     
-    P1 -.->|Prevents Out-of-Scope Hallucinations| Code[Production-Grade IaC]
+    P1 -.->|Prevents Out-of-Scope Hallucinations| Code[Enterprise IaC]
     P2 -.->|Prevents Multi-Root State Cross-Contamination| Code
     P3 -.->|Enforces Managed IAM & Prevents Provider Lock Traps| Code
     P4 -.->|Forces fmt, validate, test, checkov Gates| Code
